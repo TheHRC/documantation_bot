@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask
+        image: flask:local
+        ports:
+        - containerPort: 5000
+        env:
+        - name: RASA_SERVER_URL
+          value: "http://rasa:5005/webhooks/rest/webhook"

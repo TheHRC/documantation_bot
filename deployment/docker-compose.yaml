@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  rasa:
+    build:
+      context: ../rasa
+    ports:
+      - "5005:5005"
+    volumes:
+      - ../rasa:/rasa
+
+  flask:
+    build:
+      context: ../backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - rasa
+    environment:
+      - RASA_SERVER_URL=http://rasa:5005/webhooks/rest/webhook
